@@ -1,0 +1,564 @@
+/* --- 1. SETUP GLOBAL --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Courier Prime', monospace;
+    background-color: #e8e8e8;
+    color: #111;
+    /* Pattern Background (Noise Texture) */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- 2. NAVIGASI --- */
+nav {
+    text-align: center;
+    padding: 30px 10px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+nav a {
+    text-decoration: none;
+    color: #111;
+    padding: 5px 10px;
+    transition: all 0.3s;
+}
+nav a:hover { text-decoration: line-through; color: #555; }
+
+/* --- 3. CONTAINER UTAMA --- */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 40px;
+    flex: 1; /* Agar footer terdorong ke bawah */
+}
+
+/* --- 4. PHOTO CARD (POLAROID) --- */
+.photo-card {
+    background: white;
+    padding: 10px 10px 40px 10px;
+    border: 2px solid #111;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.85);
+    width: 300px; /* Lebar default desktop */
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.photo-card img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    filter: grayscale(100%) contrast(1.1);
+}
+
+.rotate-left { transform: rotate(-4deg); margin-top: 30px; }
+.rotate-right { transform: rotate(4deg); margin-top: -30px; }
+
+.photo-card:hover {
+    transform: scale(1.02) rotate(0deg);
+    z-index: 10;
+    box-shadow: 12px 12px 0px rgba(0,0,0,1);
+}
+.photo-card:hover img {
+    filter: grayscale(0%); /* Jadi berwarna pas di-hover */
+}
+
+/* --- 5. CENTER TEXT AREA --- */
+.center-content {
+    text-align: center;
+    max-width: 400px;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title-block {
+    font-family: 'Oswald', sans-serif;
+    font-size: 3rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.bg-black { background-color: #111; color: #fff; padding: 5px 20px; display: inline-block; transform: rotate(-2deg); }
+.bg-outline { background-color: transparent; color: #111; border: 3px solid #111; padding: 5px 20px; display: inline-block; margin-top: 5px; transform: rotate(1deg); }
+
+.moments-list {
+    margin-top: 20px;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #222;
+    border-top: 1px solid #111;
+    border-bottom: 1px solid #111;
+    padding: 15px 0;
+    width: 100%;
+}
+
+.btn-main {
+    display: inline-block;
+    margin-top: 30px;
+    background-color: #111;
+    color: white;
+    padding: 12px 40px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 2px solid #111;
+    transition: 0.3s;
+}
+.btn-main:hover { background: transparent; color: #111; box-shadow: 4px 4px 0px #111; }
+
+/* --- 6. FOOTER / BADGE AREA --- */
+.footer-badges {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 20px 40px;
+    width: 100%;
+    pointer-events: none;
+}
+
+.badge-corner {
+    border: 1px solid #111;
+    padding: 10px 20px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: bold;
+    transform: rotate(-10deg);
+    background: #e8e8e8;
+    text-align: center;
+    pointer-events: auto;
+}
+
+.date-corner {
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-align: right;
+    pointer-events: auto;
+}
+
+/* --- 7. MEDIA QUERIES (HP/MOBILE) --- */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        gap: 50px;
+        padding-bottom: 40px;
+    }
+
+    /* Reset rotasi & margin di HP */
+    .rotate-left, .rotate-right {
+        transform: rotate(0deg);
+        margin: 0;
+    }
+
+    /* Foto Responsif */
+    .photo-card {
+        width: 90%;
+        max-width: 350px;
+        height: auto;
+        padding-bottom: 40px;
+    }
+    
+    .photo-card img {
+        height: auto;
+        aspect-ratio: 1 / 1; /* Tetap kotak */
+    }
+
+    .title-block { font-size: 2.2rem; }
+    .moments-list { font-size: 0.75rem; padding: 10px; }
+
+    /* Footer di HP */
+    .footer-badges {
+        position: static;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding-bottom: 40px;
+    }
+    
+    .badge-corner { transform: rotate(0deg); }
+    .date-corner { text-align: center; }
+}
+/* --- PERBAIKAN TAMPILAN STORY (RETRO PAPER) --- */
+
+/* Container agar posisinya di tengah */
+.story-container {
+    max-width: 700px;
+    margin: 40px auto 80px auto; /* Jarak atas bawah */
+    padding: 0 20px;
+    position: relative;
+}
+
+/* KOTAK KERTAS (Ini yang bikin bagus) */
+.paper-box {
+    background-color: #fff; /* Wajib putih */
+    border: 2px solid #111; /* Garis pinggir hitam tebal */
+    padding: 40px 50px;
+    box-shadow: 15px 15px 0px rgba(0,0,0,0.8); /* Bayangan kasar */
+    transform: rotate(-1deg); /* Miring sedikit biar natural */
+    position: relative;
+    
+    /* Efek Garis Buku Tulis */
+    background-image: repeating-linear-gradient(transparent, transparent 29px, #d0d0d0 30px);
+    background-size: 100% 30px;
+    line-height: 30px; /* Samakan tinggi baris dengan garis background */
+}
+
+/* Judul Halaman (Stiker) */
+.title-area {
+    text-align: center;
+    margin-bottom: 40px;
+    transform: rotate(2deg); /* Miring berlawanan arah kertas */
+}
+
+.sticker-white {
+    background: #fff;
+    border: 2px solid #111;
+    color: #111;
+    padding: 5px 15px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: -10px; /* Biar numpuk dikit */
+    z-index: 1;
+    position: relative;
+}
+
+.sticker-black {
+    background: #111;
+    color: #fff;
+    padding: 5px 15px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    display: inline-block;
+    transform: rotate(-3deg);
+}
+
+/* Teks Cerita */
+.paper-box p {
+    font-family: 'Courier Prime', monospace;
+    font-size: 1.1rem;
+    color: #222;
+    margin-bottom: 30px; /* Jarak antar paragraf */
+    text-align: justify;
+}
+
+/* Badge Chapter (Penanda Bagian) */
+.chapter-mark {
+    background: #000;
+    color: #fff;
+    display: inline-block;
+    padding: 2px 10px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    transform: rotate(-2deg);
+}
+
+/* Efek Selotip (Hiasan di atas kertas) */
+.tape {
+    background-color: rgba(255, 255, 255, 0.6);
+    width: 150px;
+    height: 40px;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%) rotate(2deg);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    border-left: 2px dashed rgba(0,0,0,0.1);
+    border-right: 2px dashed rgba(0,0,0,0.1);
+    z-index: 10;
+}
+
+/* Tombol Balik */
+.btn-back {
+    display: inline-block;
+    margin-top: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #111;
+    border-bottom: 2px solid #111;
+    padding-bottom: 2px;
+}
+/* --- STYLE KHUSUS GALLERY --- */
+
+.container-gallery {
+    max-width: 1000px;
+    margin: 40px auto 80px auto;
+    padding: 0 20px;
+}
+
+/* Grid Layout untuk Foto */
+.gallery-grid {
+    display: grid;
+    /* Membuat kolom otomatis (responsive) */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px; /* Jarak antar foto */
+    margin-top: 50px;
+}
+
+/* Bingkai Foto (Polaroid Style) */
+.photo-item {
+    background: #fff;
+    padding: 15px 15px 40px 15px; /* Bawah lebih lebar buat caption */
+    border: 1px solid #111;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.photo-item img {
+    width: 100%;
+    height: 250px; /* Tinggi foto disamakan biar rapi */
+    object-fit: cover;
+    border: 1px solid #ccc;
+    filter: grayscale(100%); /* Hitam putih default */
+    transition: filter 0.3s;
+}
+
+/* Efek Hover (Pas mouse nyorot) */
+.photo-item:hover {
+    transform: scale(1.05) rotate(0deg) !important; /* Lurus & Zoom dikit */
+    z-index: 10;
+    box-shadow: 12px 12px 0px #111;
+}
+.photo-item:hover img {
+    filter: grayscale(0%); /* Jadi berwarna pas di-hover */
+}
+
+/* Caption di bawah foto */
+.caption {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-top: 15px;
+    text-align: center;
+    border-top: 1px dashed #999;
+    padding-top: 10px;
+}
+
+/* Rotasi Random Biar Natural (Scrapbook look) */
+.rotate-left { transform: rotate(-3deg); }
+.rotate-right { transform: rotate(3deg); }
+
+/* Selotip Kecil di Atas Foto */
+.tape-small {
+    width: 80px;
+    height: 25px;
+    background: rgba(255,255,255,0.6);
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 1px dashed rgba(0,0,0,0.1);
+    border-right: 1px dashed rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    z-index: 5;
+}
+/* --- STYLE KHUSUS WISHES --- */
+
+.container-wishes {
+    max-width: 600px;
+    margin: 40px auto 80px auto;
+    padding: 0 20px;
+}
+
+/* Kotak Checklist */
+.checklist-box {
+    background: #fdfdfd;
+    border: 2px solid #111;
+    padding: 30px;
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.8);
+    position: relative;
+    margin-bottom: 50px;
+    background-image: linear-gradient(#eee 1px, transparent 1px);
+    background-size: 100% 30px; /* Garis buku tulis */
+}
+
+.checklist-box h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    border-bottom: 3px solid #111;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.wish-list {
+    list-style: none;
+    font-family: 'Courier Prime', monospace;
+    font-size: 1.1rem;
+    line-height: 30px; /* Pas dengan garis */
+}
+
+.wish-list li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.wish-list li i {
+    font-size: 1.3rem;
+}
+
+/* Style untuk yang sudah tercapai (Done) */
+.wish-list li.done {
+    text-decoration: line-through;
+    color: #777;
+}
+
+/* Kotak Form WhatsApp */
+.wa-box {
+    background: #111;
+    color: #fff;
+    padding: 30px;
+    text-align: center;
+    border: 2px solid #fff; /* Border putih biar kontras */
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.3);
+    transform: rotate(1deg);
+}
+
+.wa-box h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.wa-box p {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    color: #ccc;
+}
+
+.wa-box textarea {
+    width: 100%;
+    height: 100px;
+    background: #f0f0f0;
+    border: none;
+    padding: 15px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 1rem;
+    color: #111;
+    margin-bottom: 10px;
+    resize: none;
+    outline: none;
+}
+
+.wa-box textarea:focus {
+    background: #fff;
+   border: 2px solid pink;
+}
+
+/* Selotip Pojok */
+.tape-corner {
+    width: 100px;
+    height: 30px;
+    background: rgba(0,0,0,0.1);
+    position: absolute;
+    top: -15px;
+    left: -30px;
+    transform: rotate(-45deg);
+    border: 1px dashed #999;
+}
+/* --- STYLE KHUSUS GIFT (COUPONS) --- */
+
+.gift-container {
+    max-width: 800px;
+    margin: 40px auto 80px auto;
+    padding: 0 20px;
+}
+
+.coupon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsif */
+    gap: 30px;
+}
+
+/* Desain Kupon Retro */
+.coupon {
+    display: flex;
+    background: #fff;
+    border: 2px solid #111;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
+    height: 150px;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.coupon:hover {
+    transform: scale(1.03);
+}
+
+/* Bagian Kiri (Isi Kupon) */
+.coupon-left {
+    flex: 3; /* Lebar 75% */
+    padding: 20px;
+    border-right: 2px dashed #111; /* Garis sobekan */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.coupon-left h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    color: #111;
+}
+
+.coupon-left p {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Bagian Kanan (Stub Tiket) */
+.coupon-right {
+    flex: 1; /* Lebar 25% */
+    background: #111;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vertical-text {
+    writing-mode: vertical-rl; /* Teks berdiri */
+    text-orientation: mixed;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+.tnc {
+    font-size: 0.6rem !important; /* Ukuran font kecil */
+    color: #777; /* Warna abu-abu */
+    margin-top: 15px;
+    font-style: italic;
+    letter-spacing: 0;
+}

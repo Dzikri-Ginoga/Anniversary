@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishes - Happy Anniversary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="story.html">Our Story</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="wishes.html" style="text-decoration: line-through;">Wishes</a> </nav>
+
+    <div class="container-wishes">
+        
+        <div class="title-area">
+            <span class="sticker-white">FUTURE</span>
+            <span class="sticker-black">LIST</span>
+        </div>
+
+        <div class="checklist-box">
+            <div class="tape-corner"></div> <h3>THINGS TO DO TOGETHER:</h3>
+            
+            <ul class="wish-list">
+                <li class="done">
+                    <i class="fa-regular fa-square-check"></i>
+                    Anniversary ke-1
+                </li>
+
+                <li>
+                    <i class="fa-regular fa-square"></i>
+                    Nonton konser The Neighbourhood berdua
+                </li>
+
+                <li>
+                    <i class="fa-regular fa-square"></i>
+                    Lulus tepat waktu
+                </li>
+
+                <li>
+                    <i class="fa-regular fa-square"></i>
+                    Dapet kerja dan kaya raya HUA HAHA
+                </li>
+                
+                <li>
+                    <i class="fa-regular fa-square"></i>
+                    Nikah with you
+                </li>
+            </ul>
+        </div>
+
+        <div class="wa-box">
+            <h3>MAKE A WISH</h3>
+            <p>Tulis harapan kamu buat hubungan kita kedepannya, nanti bakal ke kirim ke WhatsApp aku </p>
+            
+            <textarea id="pesan" placeholder="Ketik harapan kamu di sini sayang..."></textarea>
+            
+            <button onclick="kirimWA()" class="btn-main" style="width: 100%; margin-top: 10px;">
+                <i class="fa-brands fa-whatsapp"></i> KIRIM SEKARANG
+            </button>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px;">
+            <a href="index.html" class="btn-back">← Back Home</a>
+        </div>
+
+    </div>
+
+    <script>
+        function kirimWA() {
+            var text = document.getElementById("pesan").value;
+            var noHP = "6287703637788"; 
+            
+            if(text == "") {
+                alert("Isi dulu harapannya dong cantik/ganteng!");
+            } else {
+                window.open("https://wa.me/" + noHP + "?text=" + encodeURIComponent(text), "_blank");
+            }
+        }
+    </script>
+
+</body>
+</html>
